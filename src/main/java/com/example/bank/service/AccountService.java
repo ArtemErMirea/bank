@@ -1,4 +1,4 @@
-package com.example.bank.domain;
+package com.example.bank.service;
 
 import com.example.bank.model.entities.Account;
 import com.example.bank.model.entities.Loan;
