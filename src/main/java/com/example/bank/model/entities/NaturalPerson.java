@@ -39,10 +39,6 @@ public class NaturalPerson {
     @JoinColumn(name = "status")
     private ClientStatus status;
 
-    @Lob
-    @Column(name = "photo")
-    private byte[] photo;
-
     @OneToOne
     @JoinColumn(name = "in_staff")
     private StaffStatus inStaff;

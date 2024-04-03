@@ -34,7 +34,7 @@ public class ClientStatusServiceImp implements ClientStatusService {
 
     @Override
     public ClientStatus readById(long id) {
-        return clientStatusRepository.findById(id).get();
+        return clientStatusRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

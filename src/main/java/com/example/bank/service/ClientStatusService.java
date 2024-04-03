@@ -38,7 +38,7 @@ public interface ClientStatusService {
      * Обновляет статус с заданным ID,
      * в соответствии с переданным статус
      * @param id - id статуса, которого нужно удалить
-     * @param value - статус в соответсвии с которым нужно обновить данные
+     * @param patch - json patch в соответсвии с которым нужно обновить данные
      * @return - true если данные были обновлены, иначе false
      */
     ClientStatus patch(Long id, JsonPatch patch);

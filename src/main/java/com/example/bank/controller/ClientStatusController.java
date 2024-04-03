@@ -32,8 +32,8 @@ public class ClientStatusController {
 
     @GetMapping(value = "/status")
     public ResponseEntity<List<ClientStatus>> read() {
-        final List<ClientStatus> clientStatuses = clientStatusService.readAll();
 
+        List<ClientStatus> clientStatuses = clientStatusService.readAll();
         return clientStatuses != null &&  !clientStatuses.isEmpty()
                 ? new ResponseEntity<>(clientStatuses, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -41,11 +41,13 @@ public class ClientStatusController {
 
     @GetMapping(value = "/status/{id}")
     public ResponseEntity<ClientStatus> read(@PathVariable(name = "id") long id) {
-        final ClientStatus clientStatus = clientStatusService.readById(id);
-
-        return clientStatus != null
-                ? new ResponseEntity<>(clientStatus, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            ClientStatus clientStatus = clientStatusService.readById(id);
+            return new ResponseEntity<>(clientStatus, HttpStatus.OK);
+        }
+        catch (EntityNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     /*
@@ -73,12 +75,10 @@ public class ClientStatusController {
 
     @PutMapping(value = "/status")
     public ResponseEntity<?> put(@RequestParam Optional<Long> id, @RequestBody ClientStatus clientStatus) {
-        boolean updated = false;
-        if (id.isPresent()){
-            clientStatusService.update(clientStatus, id.get());
-        }
+        boolean updated = id.filter(aLong -> clientStatusService.update(clientStatus, aLong)).isPresent();
+        //id.ifPresent(aLong -> updated = clientStatusService.update(clientStatus, aLong));
         if (updated) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(updated, HttpStatus.OK);
         }
         else {
             return create(clientStatus);

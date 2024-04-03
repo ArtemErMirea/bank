@@ -1,6 +1,8 @@
 package com.example.bank.service;
 
+import com.example.bank.model.entities.ClientStatus;
 import com.example.bank.model.entities.NaturalPerson;
+import com.github.fge.jsonpatch.JsonPatch;
 
 import java.util.List;
 
@@ -32,6 +34,13 @@ public interface NaturalPersonService {
      * @return - true если данные были обновлены, иначе false
      */
     boolean update(NaturalPerson naturalPerson, long id);
+
+    /**
+     * @param id
+     * @param patch - json patch в соответсвии с которым нужно обновить данные
+     * @return - обновлённый NaturalPerson
+     */
+    NaturalPerson patch(Long id, JsonPatch patch);
 
     /**
      * Удаляет физлицо с заданным ID
